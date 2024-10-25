@@ -2,3 +2,4 @@
 
 def main():
     print("This is your favourite assignment scheduler")
+    print("Porfa funciona")
