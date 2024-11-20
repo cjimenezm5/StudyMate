@@ -1,5 +1,6 @@
 import os
 import json
+import heapq
 # Store objects in JSON files as assignments in an array
 def load_from_JSON(filename):
     filepath = "Data/" + filename + ".json"
@@ -55,39 +56,59 @@ def calculate_priority(assignment, study_hours):
     return priority
 
 
-def scheduler(name, study_hours):
+def scheduler(name, weekend_study_hours, weekday_study_hours):
     assignment_list = load_from_JSON(name)
 
-    # Initializing priority queue
-    priority_queue = []
+    # Initialize priority queue as an empty heap
     day = 1  # Track the day
+
     while assignment_list:  # Continue while there are assignments
         print("Day ", day)
+        if day % 6 == 0 or day % 7 == 0:
+            study_hours = weekend_study_hours
+        else:
+            study_hours = weekday_study_hours
+
+        # Calculate priorities and populate the queue
+        priority_queue = []
+        for assignment in assignment_list:
+            # Update priority for each assignment
+            assignment["priority"] = calculate_priority(assignment, study_hours)
+            # Push the assignment into the heap (use name as a unique identifier)
+            heapq.heappush(priority_queue, (-assignment["priority"], assignment["name"]))
+
+        # Use all study hours in the day
         for i in range(study_hours):
-            priority_queue = []
+            if not priority_queue:
+                # Refill the queue if it's empty but assignments still exist
+                for assignment in assignment_list:
+                    assignment["priority"] = calculate_priority(assignment, study_hours)
+                    heapq.heappush(priority_queue, (-assignment["priority"], assignment["name"]))
 
-            # Calculate priorities and populate the queue
-            for assignment in assignment_list:
-                assignment["priority"] = calculate_priority(assignment, study_hours)
-                priority_queue.append(assignment)
-
-            # Sort the queue based on priority
-            priority_queue.sort(key=lambda x: x["priority"], reverse=True)
-
-            # Select the highest-priority assignment
             if priority_queue:
-                current_assignment = priority_queue[0]
-                print("Hour ", i + 1, ": ", current_assignment["name"])
-                current_assignment["real_duration"] -= 1
+                # Get the highest-priority assignment
+                _, assignment_name = heapq.heappop(priority_queue)
 
-                # Remove completed assignment
-                if current_assignment["real_duration"] == 0:
-                    assignment_list.remove(current_assignment)
+                # Find the corresponding assignment object
+                current_assignment = next((a for a in assignment_list if a["name"] == assignment_name), None)
+
+                if current_assignment:
+                    print(f"Hour {i + 1}: {current_assignment['name']}")
+                    current_assignment["real_duration"] -= 1
+
+                    # If the assignment is completed, remove it
+                    if current_assignment["real_duration"] == 0:
+                        assignment_list.remove(current_assignment)
+                    else:
+                        # Recalculate priority and re-add to the heap
+                        current_assignment["priority"] = calculate_priority(current_assignment, study_hours)
+                        heapq.heappush(priority_queue, (-current_assignment["priority"], current_assignment["name"]))
 
         # Reduce the deadline for all assignments
-        for assignment in assignment_list:  # Use a copy to avoid modifying the list during iteration
+        for assignment in assignment_list:  # Iterate over a copy to avoid modification issues
             assignment["deadline"] -= 1
-            if assignment["deadline"] == 0:
+            if assignment["deadline"] <= 0:
+                print(f"Missed deadline for assignment: {assignment['name']}")
                 assignment_list.remove(assignment)
 
         day += 1
