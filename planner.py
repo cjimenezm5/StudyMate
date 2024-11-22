@@ -3,10 +3,9 @@ import json
 import heapq
 # Store objects in JSON files as assignments in an array
 def load_from_JSON(filename):
-    filepath = "Data/" + filename + ".json"
 
     if not os.path.exists("Data/" + filename + ".json"):
-        print(f"File '{"Data/" + filename + ".json"}' does not exist.")
+        print(f"File Data/" + filename + ".json does not exist.")
         return []
 
     try:
@@ -14,7 +13,7 @@ def load_from_JSON(filename):
         with open("Data/" + filename + ".json", "r") as f:
             return json.load(f)  
     except json.JSONDecodeError:
-        print(f"Error: The file '{"Data/" + filename + ".json"}' contains invalid JSON.")
+        print(f"Error: The file Data/" + filename + ".json contains invalid JSON.")
         return []
     
 # Study hours = number of hours the student plans in working per day
