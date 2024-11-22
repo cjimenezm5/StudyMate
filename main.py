@@ -31,7 +31,8 @@ def main():
             assignment = class1.create_assignment()
             class1.load_to_JSON(name, assignment)
         elif choice == "2":
-            class1.delete_assignment(name)
+            assignment_name = str(input("Enter the name of the assignment: "))
+            class1.delete_assignment(name, assignment_name)
         elif choice == "3":
             weekday_study_hours = int(input("Enter the number of hours you plan to study per day during the week: "))
             weekend_study_hours = int(input("Enter the number of hours you plan to study per day on weekends: "))

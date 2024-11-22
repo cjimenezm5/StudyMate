@@ -1,6 +1,6 @@
+import json
 import planner
 import os
-import json
 
 class Assignment():
     def __init__(self):
@@ -9,8 +9,9 @@ class Assignment():
         self.deadline= None
         self.duration= 1
         self.weight= None
-        self.size= 1
+        self.size= None
         self.group_work= None
+        self.group_size = 1
         self.priority = None
         self.real_duration = int(self.duration / self.group_size)
 
@@ -22,6 +23,8 @@ class Assignment():
         print("Weight: ", self.weight)
         print("Size: ", self.size)
         print("Group Work: ", self.group_work)
+        print("Group Size: ", self.group_size)
+        
 
 def create_assignment():
     subject = str(input("Enter the name of your subject in capital letters: "))
@@ -31,6 +34,7 @@ def create_assignment():
     weight = float(input("Enter the weight of your assignment as a percentage of your grade: "))
     size = int(input("Enter the size of the assignment- big(1), medium(2), small(3): "))
     groupwork = str(input("Is your assignment group work? (yes/no): "))
+    group_size = int(input("Enter the size of your group (1 if it is just yourself): "))
 
     assignment = Assignment()
     assignment.subject = subject
@@ -39,6 +43,7 @@ def create_assignment():
     assignment.duration = duration
     assignment.weight = weight
     assignment.size = size
+    assignment.group_size = group_size
     if groupwork == "yes":
       assignment.group_work = True
     else:
@@ -77,12 +82,11 @@ def load_to_JSON(filename, assignment):
         json.dump(existing_data, f, indent=4)
       
 #Delete assignment by loading from Json, deleting the assignment and then writing the new list to the file
-def delete_assignment(filename, assignment):
+def delete_assignment(filename, assignment_name):
     array = planner.load_from_JSON(filename)
     for i in range(len(array)):
-        if array[i].name == assignment.name:
+        if array[i]['name'] == assignment_name:
             del array[i]
             break
     with open("Data/"+filename+ ".json", "w") as f:
-        for assignment in array:
-            load_to_JSON(filename, assignment)
+        json.dump(array, f, indent=4)
