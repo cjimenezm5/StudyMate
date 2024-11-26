@@ -2,6 +2,16 @@
 Welcome to StudyMate! 🎓✨
 
 StudyMate is a powerful, student-centric tool designed to simplify academic life, minimize stress, and maximize productivity. Built by students, for students, it addresses the challenges we all face, like managing assignments, schedule study hours, and prioritize tasks based on deadlines, weight, and duration. 
+
+Installation and Execution 
+Step 1: Download the Code: Download the ZIP StudyMate-main.zip
+Step 2: Install Python or VS Code
+Step 3: Unzip the file
+Step  4: Open the file StudyMate-main in VS or Python
+Step  5: Run main.py
+Step 6: Execute the features
+
+
 # Program File Structure
 
 - **main.py** - Handles program logic and contains the main function.
