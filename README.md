@@ -1,7 +1,7 @@
 # StudyMate
 Welcome to StudyMate! 🎓✨
 
-StudyMate is a powerful, student-centric tool designed to simplify academic life, minimize stress, and maximize productivity. Built by students, for students, it addresses the challenges we all face, like managing tight deadlines, balancing coursework, and staying on top of multiple assignments.
+StudyMate is a powerful, student-centric tool designed to simplify academic life, minimize stress, and maximize productivity. Built by students, for students, it addresses the challenges we all face, like managing assignments, schedule study hours, and prioritize tasks based on deadlines, weight, and duration. 
 # Program File Structure
 
 - **main.py** - Handles program logic and contains the main function.
