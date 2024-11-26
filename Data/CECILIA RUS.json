@@ -1,0 +1,13 @@
+[
+    {
+        "subject": "MATHEMATICS",
+        "name": "MATRICES",
+        "deadline": 9,
+        "duration": 4,
+        "weight": 30.0,
+        "size": 2,
+        "group_work": false,
+        "group_size": 1,
+        "real_duration": 4
+    }
+]
