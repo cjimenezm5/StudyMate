@@ -3,7 +3,7 @@ import planner
 import os
 
 class Assignment():
-    def __init__(self):
+    def _init_(self):
         self.subject = None
         self.name= None
         self.deadline= None
@@ -13,7 +13,10 @@ class Assignment():
         self.group_work= None
         self.group_size = 1
         self.priority = None
-        self.real_duration = int(self.duration / self.group_size)
+        if self.duration/self.group_size < 1:
+            self.real_duration = 1
+        else:
+            self.real_duration = int(self.duration / self.group_size)
 
     def display(self):
         print("Subject: ", self.subject)
